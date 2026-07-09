@@ -2,7 +2,7 @@
 
 namespace WorkTeamProject.API.DTOs
 {
-    public class RoleResponse
+    public class RoleResponseDTO
     {
         public int RoleId { get; set; }
         public string RoleName { get; set; } = string.Empty;
