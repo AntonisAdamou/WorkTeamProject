@@ -51,7 +51,7 @@ public class RoleController : ControllerBase
         _context.Roles.Add(role);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetRole", new { roleid = role.RoleId }, role);
+        return CreatedAtAction("GetRoleById", new { roleid = role.RoleId }, role);
     }
 
     [HttpDelete("DeleteRole/{roleid}")]
