@@ -40,7 +40,7 @@ public class RoleController : ControllerBase
         {
             return NotFound();
         }
-        _context.Add(existingRole);
+        _context.Update(existingRole);
         await _context.SaveChangesAsync();
         return Ok(existingRole);
     }
