@@ -40,6 +40,10 @@ public class RoleController : ControllerBase
         {
             return NotFound();
         }
+
+        existingRole.RoleName = role.RoleName;
+        existingRole.UserRoles = role.UserRoles;
+
         _context.Update(existingRole);
         await _context.SaveChangesAsync();
         return Ok(existingRole);
