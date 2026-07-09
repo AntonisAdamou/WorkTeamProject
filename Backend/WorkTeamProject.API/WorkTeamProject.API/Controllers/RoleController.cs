@@ -13,13 +13,13 @@ public class RoleController : ControllerBase
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet("GetRoles")]
     public async Task<ActionResult<IEnumerable<Role>>> GetRoles()
     {
         return Ok(await _context.Roles.ToListAsync());
     }
 
-    [HttpGet("{roleid}")]
+    [HttpGet("GetRoleById/{roleid}")]
     public async Task<ActionResult<Role>> GetRoleById(int roleid)
     {
         var role = await _context.Roles.FindAsync(roleid);
@@ -32,7 +32,7 @@ public class RoleController : ControllerBase
         return Ok(role);
     }
 
-    [HttpPut("{roleid}")]
+    [HttpPut("UpdateRole/{roleid}")]
     public async Task<IActionResult> UpdateRole(int? roleid, Role role)
     {
         var existingRole = await _context.Roles.FindAsync(roleid);
@@ -45,7 +45,7 @@ public class RoleController : ControllerBase
         return Ok(existingRole);
     }
 
-    [HttpPost]
+    [HttpPost("CreateRole")]
     public async Task<ActionResult<Role>> AddRole(Role role)
     {
         _context.Roles.Add(role);
@@ -54,7 +54,7 @@ public class RoleController : ControllerBase
         return CreatedAtAction("GetRole", new { roleid = role.RoleId }, role);
     }
 
-    [HttpDelete("{roleid}")]
+    [HttpDelete("DeleteRole/{roleid}")]
     public async Task<IActionResult> DeleteRole(int? roleid)
     {
         var role = await _context.Roles.FindAsync(roleid);
