@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WorkTeamProject.API.Models;
 using WorkTeamProject.API.Data;
+using WorkTeamProject.API.DTOs;
+using WorkTeamProject.API.Models;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -15,28 +16,52 @@ public class UsersController : ControllerBase
 
     // GET: api/User
     [HttpGet("GetAllUsers")]
-    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<UserResponseDTO>>> GetUsers()
     {
-        return await _context.Users.ToListAsync();
+        //return await _context.Users.ToListAsync();
+
+        var users = await _context.Users.Include(u => u.UserRoles!).ThenInclude(ur => ur.Role).ToListAsync();
+
+        var results = new List<UserResponseDTO>();
+        foreach(var user in users)
+        {
+            results.Add(new UserResponseDTO
+            {
+                UserId = user.UserId,
+                UserName = user.UserName,
+                UserEmail = user.UserEmail,
+                UserPassword = user.UserPassword,
+                Roles = user.UserRoles!.Select(ur => ur.Role!.RoleName).ToList()
+            });
+        }
+
+        return results;
     }
 
     // GET: api/User/1
     [HttpGet("GetUserById/{userId}")]
-    public async Task<ActionResult<User>> GetUser(int userId)
+    public async Task<ActionResult<UserResponseDTO>> GetUser(int userId)
     {
-        var user = await _context.Users.FindAsync(userId);
+        var user = await _context.Users.Include(u => u.UserRoles!).ThenInclude(ur => ur.Role).FirstOrDefaultAsync(u => u.UserId == userId);
 
         if (user == null)
         {
             return NotFound();
         }
 
-        return user;
+        return new UserResponseDTO
+        {
+            UserId = user.UserId,
+            UserName = user.UserName,
+            UserEmail = user.UserEmail,
+            UserPassword = user.UserPassword,
+            Roles = user.UserRoles!.Select(ur => ur.Role!.RoleName).ToList()
+        };
     }
 
     // PUT: api/User/1
     [HttpPut("UpdateUser/{userId}")]
-    public async Task<IActionResult> PutUser(int userId, [FromBody] User user)
+    public async Task<IActionResult> PutUser(int userId, [FromBody] UserRequestDTO user)
     {
         var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
         if (existingUser == null)
@@ -47,7 +72,6 @@ public class UsersController : ControllerBase
         existingUser.UserName = user.UserName;
         existingUser.UserEmail = user.UserEmail;
         existingUser.UserPassword = user.UserPassword;
-        existingUser.UserRoles = user.UserRoles;
 
         _context.Users.Update(existingUser);
         await _context.SaveChangesAsync();
@@ -57,12 +81,19 @@ public class UsersController : ControllerBase
 
     // POST: api/User
     [HttpPost("CreateUser")]
-    public async Task<ActionResult<User>> PostUser([FromBody] User user)
+    public async Task<ActionResult<User>> PostUser([FromBody] UserRequestDTO user)
     {
-        _context.Users.Add(user);
+        var newUser = new User
+        {
+            UserName = user.UserName,
+            UserEmail = user.UserEmail,
+            UserPassword = user.UserPassword,
+        };
+
+        _context.Users.Add(newUser);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetUser", new { userId = user.UserId }, user);
+        return CreatedAtAction("GetUser", new { userId = newUser.UserId }, newUser);
     }
 
     // DELETE: api/User/1
