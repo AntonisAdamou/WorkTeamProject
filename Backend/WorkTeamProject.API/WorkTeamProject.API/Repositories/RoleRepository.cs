@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using WorkTeamProject.API.Data;
+using WorkTeamProject.API.DTOs;
 using WorkTeamProject.API.Models;
 
 namespace WorkTeamProject.API.Repositories
@@ -13,24 +14,38 @@ namespace WorkTeamProject.API.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Role>> GetRoles()
+        public async Task<IEnumerable<RoleResponseDTO>> GetRoles()
         {
-            return await _context.Roles.ToListAsync();
+            var roles = await _context.Roles.Include(r=> r.UserRoles!).ThenInclude(un=> un.User).ToListAsync();
+            var results = new List<RoleResponseDTO>();
+            foreach (var role in roles)
+            {
+                results.Add(new RoleResponseDTO{
+                    RoleId= role.RoleId,
+                    RoleName= role.RoleName,
+                    UserName= role.UserRoles?.Select(ur => ur.User!.UserName).ToList()
+                });
+            }
+            return results;
         }
 
-        public async Task<Role> GetRoleById(int roleid)
+        public async Task<RoleResponseDTO> GetRoleById(int roleid)
         {
-            var role = await _context.Roles.FindAsync(roleid);
+            var role = await _context.Roles.Include(r => r.UserRoles!).ThenInclude(un => un.User).FirstOrDefaultAsync(ur=>ur.RoleId == roleid);
 
-            if(role == null)
+            if (role == null)
             {
                 return null!;
             }
 
-            return role;
+            return new RoleResponseDTO 
+            { 
+                RoleId = role.RoleId,
+                RoleName = role.RoleName,
+            };
         }
 
-        public async Task<bool> UpdateRole(int? roleid, Role role)
+        public async Task<bool> UpdateRole(int? roleid, RoleRequestDTO role)
         {
             var isNull = false;
             var existingRole = await _context.Roles.FindAsync(roleid);
@@ -41,19 +56,26 @@ namespace WorkTeamProject.API.Repositories
             }
 
             existingRole.RoleName = role.RoleName;
-            existingRole.UserRoles = role.UserRoles;
 
             _context.Update(existingRole);
             await _context.SaveChangesAsync();
             return isNull;
         }
 
-        public async Task<Role> AddRole(Role role)
+        public async Task<RoleResponseDTO> AddRole(RoleRequestDTO role)
         {
-            _context.Roles.Add(role);
+            var newRole = new Role
+            {
+                RoleName = role.RoleName
+            };
+            _context.Roles.Add(newRole);
             await _context.SaveChangesAsync();
 
-            return role;
+            return new RoleResponseDTO 
+            {
+                RoleId = newRole.RoleId,
+                RoleName = newRole.RoleName
+            };
         }
 
         public async Task<bool> DeleteRole(int? roleid)

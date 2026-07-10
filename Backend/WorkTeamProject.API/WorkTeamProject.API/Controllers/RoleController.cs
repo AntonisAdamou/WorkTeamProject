@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WorkTeamProject.API.Models;
 using WorkTeamProject.API.Data;
 using WorkTeamProject.API.Repositories;
+using WorkTeamProject.API.DTOs;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -16,13 +17,13 @@ public class RoleController : ControllerBase
     }
 
     [HttpGet("GetRoles")]
-    public async Task<ActionResult<IEnumerable<Role>>> GetRoles()
+    public async Task<ActionResult<IEnumerable<RoleResponseDTO>>> GetRoles()
     {
         return Ok(await _roleRepository.GetRoles());
     }
 
     [HttpGet("GetRoleById/{roleid}")]
-    public async Task<ActionResult<Role>> GetRoleById(int roleid)
+    public async Task<ActionResult<RoleResponseDTO>> GetRoleById(int roleid)
     {
         var role = await _roleRepository.GetRoleById(roleid);
 
@@ -35,7 +36,7 @@ public class RoleController : ControllerBase
     }
 
     [HttpPut("UpdateRole/{roleid}")]
-    public async Task<IActionResult> UpdateRole(int? roleid, Role role)
+    public async Task<IActionResult> UpdateRole(int? roleid, RoleRequestDTO role)
     {
         var existingRole = await _roleRepository.UpdateRole(roleid, role);
         if(existingRole)
@@ -47,11 +48,11 @@ public class RoleController : ControllerBase
     }
 
     [HttpPost("CreateRole")]
-    public async Task<ActionResult<Role>> AddRole(Role role)
+    public async Task<ActionResult<RoleResponseDTO>> AddRole(RoleRequestDTO role)
     {
-        await _roleRepository.AddRole(role);
+        var newRole = await _roleRepository.AddRole(role);
 
-        return CreatedAtAction("GetRoleById", new { roleid = role.RoleId }, role);
+        return CreatedAtAction("GetRoleById", new { roleid = newRole.RoleId }, newRole);
     }
 
     [HttpDelete("DeleteRole/{roleid}")]

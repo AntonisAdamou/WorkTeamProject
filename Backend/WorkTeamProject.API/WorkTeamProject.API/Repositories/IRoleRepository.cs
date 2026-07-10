@@ -1,14 +1,15 @@
 ﻿
+using WorkTeamProject.API.DTOs;
 using WorkTeamProject.API.Models;
 
 namespace WorkTeamProject.API.Repositories
 {
     public interface IRoleRepository
     {
-        public  Task<IEnumerable<Role>> GetRoles();
-        public  Task<Role> GetRoleById(int roleid);
-        public  Task<bool> UpdateRole(int? roleid, Role role);
-        public  Task<Role> AddRole(Role role);
+        public  Task<IEnumerable<RoleResponseDTO>> GetRoles();
+        public  Task<RoleResponseDTO> GetRoleById(int roleid);
+        public  Task<bool> UpdateRole(int? roleid, RoleRequestDTO role);
+        public  Task<RoleResponseDTO> AddRole(RoleRequestDTO role);
         public  Task<bool> DeleteRole(int? roleid);
     }
 }
