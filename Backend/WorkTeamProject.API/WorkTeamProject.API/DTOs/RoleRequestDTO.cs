@@ -1,7 +1,11 @@
-﻿namespace WorkTeamProject.API.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WorkTeamProject.API.DTOs
 {
     public class RoleRequestDTO
     {
+        [Required(ErrorMessage = "RoleName is required")]
+        [Range(3, 15, ErrorMessage = "RoleName must be between 3 and 15 characters")]
         public string RoleName { get; set; } = string.Empty;
     }
 }
