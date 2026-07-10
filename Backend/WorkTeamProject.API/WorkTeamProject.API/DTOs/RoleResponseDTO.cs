@@ -6,6 +6,6 @@ namespace WorkTeamProject.API.DTOs
     {
         public int RoleId { get; set; }
         public string RoleName { get; set; } = string.Empty;
-        public ICollection<UserRole>? UserRoles { get; set; }
+        public List<string>? UserName { get; set; }
     }
 }
