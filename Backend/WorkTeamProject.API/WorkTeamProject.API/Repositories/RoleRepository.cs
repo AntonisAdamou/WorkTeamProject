@@ -42,6 +42,7 @@ namespace WorkTeamProject.API.Repositories
             { 
                 RoleId = role.RoleId,
                 RoleName = role.RoleName,
+                UserName = role.UserRoles?.Select(ur => ur.User!.UserName).ToList()
             };
         }
 
