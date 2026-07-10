@@ -2,27 +2,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorkTeamProject.API.Models;
 using WorkTeamProject.API.Data;
+using WorkTeamProject.API.Repositories;
 
 [Route("api/[controller]")]
 [ApiController]
 public class RoleController : ControllerBase
 {
-    private readonly AppDbContext _context;
-    public RoleController(AppDbContext context)
+    private readonly IRoleRepository _roleRepository;
+
+    public RoleController(IRoleRepository roleRepository)
     {
-        _context = context;
+        _roleRepository = roleRepository;
     }
 
     [HttpGet("GetRoles")]
     public async Task<ActionResult<IEnumerable<Role>>> GetRoles()
     {
-        return Ok(await _context.Roles.ToListAsync());
+        return Ok(await _roleRepository.GetRoles());
     }
 
     [HttpGet("GetRoleById/{roleid}")]
     public async Task<ActionResult<Role>> GetRoleById(int roleid)
     {
-        var role = await _context.Roles.FindAsync(roleid);
+        var role = await _roleRepository.GetRoleById(roleid);
 
         if (role == null)
         {
@@ -35,25 +37,19 @@ public class RoleController : ControllerBase
     [HttpPut("UpdateRole/{roleid}")]
     public async Task<IActionResult> UpdateRole(int? roleid, Role role)
     {
-        var existingRole = await _context.Roles.FindAsync(roleid);
-        if(existingRole == null)
+        var existingRole = await _roleRepository.UpdateRole(roleid, role);
+        if(existingRole)
         {
             return NotFound();
         }
 
-        existingRole.RoleName = role.RoleName;
-        existingRole.UserRoles = role.UserRoles;
-
-        _context.Update(existingRole);
-        await _context.SaveChangesAsync();
-        return Ok(existingRole);
+        return NoContent();
     }
 
     [HttpPost("CreateRole")]
     public async Task<ActionResult<Role>> AddRole(Role role)
     {
-        _context.Roles.Add(role);
-        await _context.SaveChangesAsync();
+        await _roleRepository.AddRole(role);
 
         return CreatedAtAction("GetRoleById", new { roleid = role.RoleId }, role);
     }
@@ -61,14 +57,11 @@ public class RoleController : ControllerBase
     [HttpDelete("DeleteRole/{roleid}")]
     public async Task<IActionResult> DeleteRole(int? roleid)
     {
-        var role = await _context.Roles.FindAsync(roleid);
-        if (role == null)
+        var role = await _roleRepository.DeleteRole(roleid);
+        if (role)
         {
             return NotFound();
         }
-
-        _context.Roles.Remove(role);
-        await _context.SaveChangesAsync();
 
         return NoContent();
     }
