@@ -17,7 +17,7 @@ public class UsersController : ControllerBase
         _userRepository = userRepository;
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin,Manager,User")]
     // GET: api/User
     [HttpGet("GetAllUsers")]
     public async Task<ActionResult<IEnumerable<UserResponseDTO>>> GetUsers()
@@ -25,7 +25,7 @@ public class UsersController : ControllerBase
         return Ok(await _userRepository.GetUsers());
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Manager")]
     // GET: api/User/1
     [HttpGet("GetUserById/{userId}")]
     public async Task<ActionResult<UserResponseDTO>> GetUser(int userId)
@@ -40,6 +40,7 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
+    [Authorize(Roles = "Admin")]
     // PUT: api/User/1
     [HttpPut("UpdateUser/{userId}")]
     public async Task<IActionResult> PutUser(int userId, [FromBody] UserRequestDTO user)
@@ -53,6 +54,7 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin")]
     // POST: api/User
     [HttpPost("CreateUser")]
     public async Task<ActionResult<User>> PostUser([FromBody] UserRequestDTO user)
@@ -62,6 +64,7 @@ public class UsersController : ControllerBase
         return CreatedAtAction("GetUser", new { userId = newUser.UserId }, newUser);
     }
 
+    [Authorize(Roles = "Admin")]
     // DELETE: api/User/1
     [HttpDelete("DeleteUser/{userId}")]
     public async Task<IActionResult> DeleteUser(int userId)

@@ -17,7 +17,7 @@ public class RoleController : ControllerBase
         _roleRepository = roleRepository;
     }
 
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Roles = "Admin,Manager,User")]
     [HttpGet("GetRoles")]
     public async Task<ActionResult<IEnumerable<RoleResponseDTO>>> GetRoles()
     {
