@@ -21,14 +21,14 @@ namespace WorkTeamProject.API.Controllers
             _authRepository = authRepository;
         }
 
-        [HttpPost("/Register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDTO register)
         {
             var user = await _authRepository.Register(register);
             return Ok(user);
         }
 
-        [HttpPost("/Login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO login)
         {
             var success = await _authRepository.Login(login);
