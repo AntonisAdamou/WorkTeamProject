@@ -1,10 +1,12 @@
-﻿using WorkTeamProject.API.Models;
+﻿using WorkTeamProject.API.DTOs;
+using WorkTeamProject.API.Models;
 
 namespace WorkTeamProject.API.Repositories
 {
     public interface IAuthRepository
     {
-        public Task<string> Register(User user, string password);
-        public Task<string> Login(string username, string password);
+        Task<User> Register(RegisterRequestDTO register);
+        Task<bool> Login(LoginRequestDTO login);
+        Task<string> GenerateToken(string username);
     }
 }

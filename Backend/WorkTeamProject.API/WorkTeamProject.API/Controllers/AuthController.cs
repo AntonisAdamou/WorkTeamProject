@@ -1,6 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using WorkTeamProject.API.DTOs;
 using WorkTeamProject.API.Models;
+using WorkTeamProject.API.Repositories;
 
 namespace WorkTeamProject.API.Controllers
 {
@@ -8,16 +14,29 @@ namespace WorkTeamProject.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        [HttpPost("/Register")]
-        public async Task<IActionResult> Register([FromBody] User user, string password)
+        private readonly IAuthRepository _authRepository;
+
+        public AuthController(IAuthRepository authRepository)
         {
-            return Ok();
+            _authRepository = authRepository;
+        }
+
+        [HttpPost("/Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDTO register)
+        {
+            var user = await _authRepository.Register(register);
+            return Ok(user);
         }
 
         [HttpPost("/Login")]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDTO login)
         {
-            return Ok();
+            var success = await _authRepository.Login(login);
+            if (!success)
+                return BadRequest(new {message = "Email or password is incorrect." });
+
+            var token = await _authRepository.GenerateToken(login.UserEmail);
+            return Ok(new { token });
         }
 
     }
