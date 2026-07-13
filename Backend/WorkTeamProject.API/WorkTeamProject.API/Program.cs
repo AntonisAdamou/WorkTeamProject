@@ -37,13 +37,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-var requireAuthPolicy = new AuthorizationPolicyBuilder()
-    .RequireAuthenticatedUser()
-    .Build();
-
-builder.Services.AddAuthorizationBuilder()
-    .SetFallbackPolicy(requireAuthPolicy)
-    .AddPolicy("AdminsOnly", policy => policy.RequireClaim("Roles", "Admin"));
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

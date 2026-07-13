@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorkTeamProject.API.Data;
@@ -16,6 +17,7 @@ public class UsersController : ControllerBase
         _userRepository = userRepository;
     }
 
+    [Authorize]
     // GET: api/User
     [HttpGet("GetAllUsers")]
     public async Task<ActionResult<IEnumerable<UserResponseDTO>>> GetUsers()
@@ -23,6 +25,7 @@ public class UsersController : ControllerBase
         return Ok(await _userRepository.GetUsers());
     }
 
+    [Authorize(Roles = "Admin")]
     // GET: api/User/1
     [HttpGet("GetUserById/{userId}")]
     public async Task<ActionResult<UserResponseDTO>> GetUser(int userId)
