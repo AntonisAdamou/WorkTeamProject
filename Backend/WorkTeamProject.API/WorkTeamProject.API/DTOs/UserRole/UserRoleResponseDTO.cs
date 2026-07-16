@@ -1,4 +1,4 @@
-﻿namespace WorkTeamProject.API.DTOs
+﻿namespace WorkTeamProject.API.DTOs.UserRole
 {
     public class UserRoleResponseDTO
     {

@@ -4,10 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WorkTeamProject.API.Data;
-using WorkTeamProject.API.DTOs;
+using WorkTeamProject.API.DTOs.Auth;
+using WorkTeamProject.API.DTOs.User;
 using WorkTeamProject.API.Models;
 
-namespace WorkTeamProject.API.Repositories
+namespace WorkTeamProject.API.Repositories.Auth
 {
     public class AuthRepository : IAuthRepository
     {

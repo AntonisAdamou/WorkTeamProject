@@ -1,6 +1,6 @@
 ﻿using WorkTeamProject.API.Models;
 
-namespace WorkTeamProject.API.DTOs
+namespace WorkTeamProject.API.DTOs.User
 {
     public class UserResponseDTO
     {

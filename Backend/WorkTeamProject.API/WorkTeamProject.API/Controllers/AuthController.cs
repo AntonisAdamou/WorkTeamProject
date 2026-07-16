@@ -4,9 +4,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WorkTeamProject.API.DTOs;
+using WorkTeamProject.API.DTOs.Auth;
 using WorkTeamProject.API.Models;
-using WorkTeamProject.API.Repositories;
+using WorkTeamProject.API.Repositories.Auth;
 
 namespace WorkTeamProject.API.Controllers
 {

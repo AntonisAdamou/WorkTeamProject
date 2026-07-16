@@ -5,7 +5,10 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WorkTeamProject.API.Data;
-using WorkTeamProject.API.Repositories;
+using WorkTeamProject.API.Repositories.Auth;
+using WorkTeamProject.API.Repositories.Role;
+using WorkTeamProject.API.Repositories.User;
+using WorkTeamProject.API.Repositories.UserRole;
 
 var builder = WebApplication.CreateBuilder(args);
 
