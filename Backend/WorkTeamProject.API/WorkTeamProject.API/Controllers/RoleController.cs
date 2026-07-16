@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorkTeamProject.API.Models;
 using WorkTeamProject.API.Data;
-using WorkTeamProject.API.Repositories;
-using WorkTeamProject.API.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using WorkTeamProject.API.DTOs.Role;
+using WorkTeamProject.API.Repositories.Role;
 
 [Route("api/[controller]")]
 [ApiController]
