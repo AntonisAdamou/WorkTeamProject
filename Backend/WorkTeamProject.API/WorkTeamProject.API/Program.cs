@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WorkTeamProject.API.Data;
 using WorkTeamProject.API.Repositories.Auth;
-using WorkTeamProject.API.Repositories.Role;
-using WorkTeamProject.API.Repositories.User;
-using WorkTeamProject.API.Repositories.UserRole;
+using WorkTeamProject.API.Repositories.AuthRepo;
+using WorkTeamProject.API.Repositories.RoleRepo;
+using WorkTeamProject.API.Repositories.UserRepo;
+using WorkTeamProject.API.Repositories.UserRoleRepo;
 
 var builder = WebApplication.CreateBuilder(args);
 

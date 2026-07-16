@@ -1,7 +1,6 @@
-﻿using WorkTeamProject.API.DTOs.Role;
-using WorkTeamProject.API.Models;
+﻿using WorkTeamProject.API.DTOs.RoleDTO;
 
-namespace WorkTeamProject.API.Repositories.Role
+namespace WorkTeamProject.API.Repositories.RoleRepo
 {
     public interface IRoleRepository
     {

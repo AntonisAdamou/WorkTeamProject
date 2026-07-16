@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using WorkTeamProject.API.DTOs.Auth;
-using WorkTeamProject.API.Models;
-using WorkTeamProject.API.Repositories.Auth;
+﻿using Microsoft.AspNetCore.Mvc;
+using WorkTeamProject.API.DTOs.AuthDTO;
+using WorkTeamProject.API.Repositories.AuthRepo;
 
 namespace WorkTeamProject.API.Controllers
 {

@@ -1,7 +1,7 @@
-﻿using WorkTeamProject.API.DTOs.UserRole;
+﻿using WorkTeamProject.API.DTOs.UserRoleDTO;
 using WorkTeamProject.API.Models;
 
-namespace WorkTeamProject.API.Repositories.UserRole
+namespace WorkTeamProject.API.Repositories.UserRoleRepo
 {
     public interface IUserRoleRepository
     {

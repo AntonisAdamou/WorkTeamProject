@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WorkTeamProject.API.DTOs.User;
-using WorkTeamProject.API.DTOs.UserRole;
+using WorkTeamProject.API.DTOs.UserDTO;
+using WorkTeamProject.API.DTOs.UserRoleDTO;
 using WorkTeamProject.API.Models;
-using WorkTeamProject.API.Repositories.UserRole;
+using WorkTeamProject.API.Repositories.UserRoleRepo;
 
 namespace WorkTeamProject.API.Controllers
 {

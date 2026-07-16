@@ -1,6 +1,6 @@
 ﻿using WorkTeamProject.API.Models;
 
-namespace WorkTeamProject.API.DTOs.Role
+namespace WorkTeamProject.API.DTOs.RoleDTO
 {
     public class RoleResponseDTO
     {

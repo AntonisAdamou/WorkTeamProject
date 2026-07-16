@@ -1,7 +1,7 @@
-﻿using WorkTeamProject.API.DTOs.Auth;
+﻿using WorkTeamProject.API.DTOs.AuthDTO;
 using WorkTeamProject.API.Models;
 
-namespace WorkTeamProject.API.Repositories.Auth
+namespace WorkTeamProject.API.Repositories.AuthRepo
 {
     public interface IAuthRepository
     {

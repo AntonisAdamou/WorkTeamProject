@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WorkTeamProject.API.Models;
 
-namespace WorkTeamProject.API.DTOs.Auth
+namespace WorkTeamProject.API.DTOs.UserDTO
 {
-    public class RegisterRequestDTO
+    public class UserRequestDTO
     {
         [Required(ErrorMessage = "Name is required.")]
         public string UserName { get; set; } = string.Empty;

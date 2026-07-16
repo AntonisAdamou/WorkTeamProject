@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WorkTeamProject.API.DTOs.Auth
+namespace WorkTeamProject.API.DTOs.AuthDTO
 {
-    public class LoginRequestDTO
+    public class RegisterRequestDTO
     {
+        [Required(ErrorMessage = "Name is required.")]
+        public string UserName { get; set; } = string.Empty;
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "{0} is not a valid email address")]
         public string UserEmail { get; set; } = string.Empty;

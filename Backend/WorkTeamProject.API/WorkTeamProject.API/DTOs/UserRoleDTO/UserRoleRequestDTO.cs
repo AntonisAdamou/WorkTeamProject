@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WorkTeamProject.API.DTOs.UserRole
+namespace WorkTeamProject.API.DTOs.UserRoleDTO
 {
     public class UserRoleRequestDTO
     {

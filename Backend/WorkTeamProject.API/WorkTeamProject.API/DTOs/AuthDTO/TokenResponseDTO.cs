@@ -1,4 +1,4 @@
-﻿namespace WorkTeamProject.API.DTOs.Auth
+﻿namespace WorkTeamProject.API.DTOs.AuthDTO
 {
     public class TokenResponseDTO
     {
