@@ -27,11 +27,11 @@ namespace WorkTeamProject.API.Controllers
         }
 
         [Authorize(Roles = "Admin,Manager")]
-        // GET: api/UserRole/1
-        [HttpGet("GetUserRoleById/{userId}")]
-        public async Task<ActionResult<UserResponseDTO>> GetUserRole(int userId)
+        // GET: api/UserRole/1/1
+        [HttpGet("GetUserRoleById/{userId}/{roleId}")]
+        public async Task<ActionResult<UserResponseDTO>> GetUserRole(int userId, int roleId)
         {
-            var user = await _userRoleRepository.GetUserRole(userId);
+            var user = await _userRoleRepository.GetUserRole(userId, roleId);
 
             if (user == null)
             {
@@ -43,10 +43,10 @@ namespace WorkTeamProject.API.Controllers
 
         [Authorize(Roles = "Admin")]
         // PUT: api/UserRole/1
-        [HttpPut("UpdateUserRole/{userId}")]
-        public async Task<IActionResult> PutUserRole(int userId, [FromBody] UserRoleRequestDTO userRole)
+        [HttpPut("UpdateUserRole/{userId}/{roleId}")]
+        public async Task<IActionResult> PutUserRole(int userId, int roleId, [FromBody] UserRoleRequestDTO userRole)
         {
-            var existingUserRole = await _userRoleRepository.PutUserRole(userId, userRole);
+            var existingUserRole = await _userRoleRepository.PutUserRole(userId, roleId, userRole);
             if (!existingUserRole)
             {
                 return NotFound();
@@ -67,10 +67,10 @@ namespace WorkTeamProject.API.Controllers
 
         [Authorize(Roles = "Admin")]
         // DELETE: api/UserRole/1
-        [HttpDelete("DeleteUserRole/{userId}")]
-        public async Task<IActionResult> DeleteUserRole(int userId)
+        [HttpDelete("DeleteUserRole/{userId}/{roleId}")]
+        public async Task<IActionResult> DeleteUserRole(int userId, int roleId)
         {
-            var userRole = await _userRoleRepository.DeleteUserRole(userId);
+            var userRole = await _userRoleRepository.DeleteUserRole(userId, roleId);
             if (!userRole)
             {
                 return NotFound();

@@ -15,7 +15,7 @@ namespace WorkTeamProject.API.Repositories
 
         public async Task<IEnumerable<UserRoleResponseDTO>> GetUserRoles()
         {
-            var userRoles = await _context.UserRoles.ToListAsync();
+            var userRoles = await _context.UserRoles.Include(ur => ur.User).Include(ur => ur.Role).ToListAsync();
 
             var results = new List<UserRoleResponseDTO>();
             foreach (var userRole in userRoles)
@@ -32,9 +32,9 @@ namespace WorkTeamProject.API.Repositories
             return results;
         }
 
-        public async Task<UserRoleResponseDTO?> GetUserRole(int userId)
+        public async Task<UserRoleResponseDTO?> GetUserRole(int userId, int roleId)
         {
-            var userRole = await _context.UserRoles.FirstOrDefaultAsync(u => u.UserId == userId);
+            var userRole = await _context.UserRoles.Include(ur => ur.User).Include(ur => ur.Role).FirstOrDefaultAsync(u => u.UserId == userId && u.RoleId == roleId);
 
             return userRole is null ? null : new UserRoleResponseDTO
             {
@@ -45,9 +45,9 @@ namespace WorkTeamProject.API.Repositories
             };
         }
 
-        public async Task<bool> PutUserRole(int userId, UserRoleRequestDTO userRole)
+        public async Task<bool> PutUserRole(int userId, int roleId, UserRoleRequestDTO userRole)
         {
-            var existingUserRole = await _context.UserRoles.FirstOrDefaultAsync(u => u.UserId == userId);
+            var existingUserRole = await _context.UserRoles.FirstOrDefaultAsync(u => u.UserId == userId && u.RoleId == roleId);
             if (existingUserRole == null)
             {
                 return false;
@@ -76,9 +76,9 @@ namespace WorkTeamProject.API.Repositories
             return newUserRole;
         }
 
-        public async Task<bool> DeleteUserRole(int userId)
+        public async Task<bool> DeleteUserRole(int userId, int roleId)
         {
-            var userRole = await _context.UserRoles.FindAsync(userId);
+            var userRole = await _context.UserRoles.FirstOrDefaultAsync(u => u.UserId == userId && u.RoleId == roleId);
             if (userRole == null)
             {
                 return false;
